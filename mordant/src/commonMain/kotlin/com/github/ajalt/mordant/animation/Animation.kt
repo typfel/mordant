@@ -42,7 +42,7 @@ abstract class Animation<T>(private val terminal: Terminal) {
                     appendLine(req.text)
                 }
                 append(t)
-            }, trailingLinebreak = !terminal.info.crClearsLine)
+            }, trailingLinebreak = false)
         } ?: req
     }
 

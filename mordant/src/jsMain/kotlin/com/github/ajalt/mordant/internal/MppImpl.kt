@@ -141,3 +141,4 @@ internal actual fun sendInterceptedPrintRequest(
 }
 
 internal actual inline fun synchronizeJvm(lock: Any, block: () -> Unit) = block()
+internal actual fun setRawModeMpp(enabled: Boolean) = Unit

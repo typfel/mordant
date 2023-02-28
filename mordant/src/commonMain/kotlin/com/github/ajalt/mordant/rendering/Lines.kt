@@ -87,7 +87,8 @@ internal fun Lines.setSize(
         lines.add(emptyLine)
     }
 
-    line@ for ((i, line) in this.lines.withIndex()) {
+    val allLines  = if (verticalAlign == BOTTOM) this.lines.asReversed() else this.lines
+    line@ for ((i, line) in allLines.withIndex()) {
         if (i >= newHeight) break
 
         var width = 0
@@ -132,6 +133,10 @@ internal fun Lines.setSize(
         } else {
             lines.add(line)
         }
+    }
+
+    if (verticalAlign == BOTTOM) {
+        lines.reverse()
     }
 
     if (newHeight != lines.size) {

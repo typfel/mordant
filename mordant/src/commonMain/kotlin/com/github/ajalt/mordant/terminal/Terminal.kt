@@ -270,6 +270,10 @@ class Terminal private constructor(
         return terminalInterface.readLineOrNull(hideInput)
     }
 
+    fun setRawMode(enabled: Boolean) {
+        terminalInterface.setRawMode(enabled)
+    }
+
     inline fun <T> prompt(
         prompt: String,
         default: T? = null,

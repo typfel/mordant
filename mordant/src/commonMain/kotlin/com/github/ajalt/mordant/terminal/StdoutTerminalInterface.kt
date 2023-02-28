@@ -2,6 +2,7 @@ package com.github.ajalt.mordant.terminal
 
 import com.github.ajalt.mordant.internal.printStderr
 import com.github.ajalt.mordant.internal.readLineOrNullMpp
+import com.github.ajalt.mordant.internal.setRawModeMpp
 import com.github.ajalt.mordant.rendering.AnsiLevel
 
 @ExperimentalTerminalApi
@@ -41,4 +42,6 @@ internal class StdoutTerminalInterface private constructor(
     }
 
     override fun readLineOrNull(hideInput: Boolean): String? = readLineOrNullMpp(hideInput)
+
+    override fun setRawMode(enabled: Boolean) = setRawModeMpp(enabled)
 }

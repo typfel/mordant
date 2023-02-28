@@ -22,6 +22,8 @@ interface TerminalInterface {
      * desktop terminal), the same instance may be returned.
      */
     fun forStdErr(): TerminalInterface
+
+    fun setRawMode(enabled: Boolean)
 }
 
 @ExperimentalTerminalApi

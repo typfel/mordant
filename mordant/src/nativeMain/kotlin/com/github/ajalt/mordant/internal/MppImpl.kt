@@ -51,6 +51,7 @@ internal actual fun printStderr(message: String, newline: Boolean) {
 }
 
 internal expect fun ttySetEcho(echo: Boolean)
+internal expect fun ttySetCanonical(canonical: Boolean)
 
 internal actual fun readLineOrNullMpp(hideInput: Boolean): String? {
     if (hideInput) ttySetEcho(false)
@@ -59,6 +60,11 @@ internal actual fun readLineOrNullMpp(hideInput: Boolean): String? {
     } finally {
         if (hideInput) ttySetEcho(true)
     }
+}
+
+actual fun setRawModeMpp(enabled: Boolean) {
+    ttySetEcho(!enabled)
+    ttySetCanonical(!enabled)
 }
 
 internal actual fun makePrintingTerminalCursor(terminal: Terminal): TerminalCursor = NativeTerminalCursor(terminal)

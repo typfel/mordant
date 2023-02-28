@@ -1,62 +1,78 @@
 package com.github.ajalt.mordant.samples
 
+import com.github.ajalt.mordant.animation.animation
+import com.github.ajalt.mordant.rendering.*
 import com.github.ajalt.mordant.rendering.BorderType.Companion.SQUARE_DOUBLE_SECTION_SEPARATOR
+import com.github.ajalt.mordant.rendering.TextAlign.*
 import com.github.ajalt.mordant.rendering.TextAlign.LEFT
 import com.github.ajalt.mordant.rendering.TextAlign.RIGHT
 import com.github.ajalt.mordant.rendering.TextColors.*
-import com.github.ajalt.mordant.rendering.TextStyle
 import com.github.ajalt.mordant.rendering.TextStyles.dim
+import com.github.ajalt.mordant.table.*
 import com.github.ajalt.mordant.table.Borders.*
-import com.github.ajalt.mordant.table.table
 import com.github.ajalt.mordant.terminal.Terminal
+import com.github.ajalt.mordant.widgets.HorizontalRule
+import com.github.ajalt.mordant.widgets.ScrollRegion
+import com.github.ajalt.mordant.widgets.Text
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 
 fun main() {
-    val terminal = Terminal()
-
-    val table = table {
-        tableBorders = NONE
-        borderType = SQUARE_DOUBLE_SECTION_SEPARATOR
-        align = RIGHT
-        column(0) {
-            align = LEFT
-            style = magenta
-        }
-        column(3) {
-            style = magenta
-        }
-        header {
-            style = magenta
-            row("", "Projected Cost", "Actual Cost", "Difference")
-        }
-        body {
-            cellBorders = TOM_BOTTOM
-            column(0) {
-                style = TextStyle(bold = true)
-                cellBorders = ALL
-            }
-            column(3) {
-                style = TextStyle(bold = true)
-                cellBorders = ALL
-            }
-            rowStyles(blue, brightBlue)
-
-            row("Food", "$400", "$200", "$200")
-            row("Data", "$100", "$150", "$-50")
-            row("Rent", "$800", "$800", "$0")
-            row("Candles", "$0", "$3,600", "$-3,600")
-            row("Utility", "$154", "$150", "$-5")
-        }
-        footer {
-            row {
-                cell("Subtotal")
-                cell("$-3,455") {
-                    columnSpan = 3
-                }
-            }
-        }
-        captionBottom(dim("Budget courtesy @dril"))
+    val messages = (1..100).map {
+        "Line number $it"
     }
 
-    terminal.println(table)
+    val terminal = Terminal()
+    terminal.setRawMode(enabled = false)
+    terminal.print(conversation("Take it ot the street paopsdkpoaskdo aksdpoak sdopkapsodkpoaksdokasodpkaopskdopaksopdkap", messages, terminal.info.height))
+//    terminal.cursor.hide()
+
+    while (true) {}
+
+
 }
+
+fun conversation(name: String, messages: List<String>, height: Int): Widget =
+    verticalLayout {
+        cell(Text(name, overflowWrap = OverflowWrap.ELLIPSES, whitespace = Whitespace.NOWRAP)) {
+            style = white on gray
+        }
+        cell(ScrollRegion(
+            messageContent(messages),
+            height = height - 3,
+            contentAlign = VerticalAlign.BOTTOM
+        ))
+        cell(HorizontalRule())
+        cell("> ") {
+
+        }
+
+//        cellsFrom(messages.slice(0 until height - 1)) {
+//            style = green
+//            overflowWrap = OverflowWrap.BREAK_WORD
+//        }
+        align = LEFT
+}
+
+fun messageContent(messages: List<String>): Widget =
+    verticalLayout {
+        cellsFrom(messages.map(::message))
+    }
+
+fun message(message: String): Widget =
+    horizontalLayout {
+        column(0) {
+            width = ColumnWidth.Auto
+            align = RIGHT
+            whitespace = Whitespace.NOWRAP
+        }
+        column(1) {
+            width = ColumnWidth.Expand()
+        }
+        cell("<Mad Mike>") {
+            style = blue
+        }
+        cell(Text(message, whitespace = Whitespace.NORMAL)) {
+        }
+    }

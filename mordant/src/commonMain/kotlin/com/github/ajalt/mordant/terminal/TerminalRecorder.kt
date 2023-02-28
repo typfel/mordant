@@ -72,6 +72,8 @@ class TerminalRecorder private constructor(
     )
 
     override fun readLineOrNull(hideInput: Boolean): String? = inputLines.removeFirstOrNull()
+
+    override fun setRawMode(enabled: Boolean) = Unit
 }
 
 @ExperimentalTerminalApi
@@ -115,4 +117,6 @@ class VirtualTerminalInterface(
 
     override fun forStdErr(): TerminalInterface = this
     override fun readLineOrNull(hideInput: Boolean): String? = null
+
+    override fun setRawMode(enabled: Boolean) = Unit
 }

@@ -29,6 +29,8 @@ internal expect fun printStderr(message: String, newline: Boolean)
 
 internal expect fun readLineOrNullMpp(hideInput: Boolean): String?
 
+internal expect fun setRawModeMpp(enabled: Boolean)
+
 @OptIn(ExperimentalTerminalApi::class)
 internal expect fun sendInterceptedPrintRequest(
     request: PrintRequest,
